@@ -18,6 +18,7 @@ dependencies = {
   "lpack",
   "luasocket",
   "luabitop",
+  "luacrypto",
   "copas"
 }
 
