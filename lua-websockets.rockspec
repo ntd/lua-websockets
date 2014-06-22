@@ -18,6 +18,7 @@ dependencies = {
   "struct",
   "luasocket",
   "luabitop",
+  "luacrypto",
   "copas"
 }
 
