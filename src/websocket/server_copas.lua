@@ -78,7 +78,7 @@ local listen = function(opts)
           request[#request+1] = line
         else
           sock:close()
-          on_error('invalid request')
+          on_error(('receive failed (%s)'):format(err))
           return
         end
       until line == ''
@@ -87,7 +87,7 @@ local listen = function(opts)
       if not response then
         copas.send(sock,protocol)
         sock:close()
-        on_error('invalid request')
+        on_error('bad request')
         return
       end
       copas.send(sock,response)
