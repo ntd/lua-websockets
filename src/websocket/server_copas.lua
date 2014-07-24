@@ -53,7 +53,7 @@ local listen = function(opts)
   
   local copas = require'copas'
   assert(opts and (opts.protocols or opts.default))
-  local on_error = opts.on_error or function(s) print(s) end
+  local on_error = opts.on_error or print
   local listener,err = socket.bind(opts.interface or '*',opts.port or 80)
   if err then
     error(err)
@@ -78,9 +78,7 @@ local listen = function(opts)
           request[#request+1] = line
         else
           sock:close()
-          if on_error then
-            on_error('invalid request')
-          end
+          on_error('invalid request')
           return
         end
       until line == ''
@@ -89,9 +87,7 @@ local listen = function(opts)
       if not response then
         copas.send(sock,protocol)
         sock:close()
-        if on_error then
-          on_error('invalid request')
-        end
+        on_error('invalid request')
         return
       end
       copas.send(sock,response)
@@ -107,9 +103,7 @@ local listen = function(opts)
         handler = opts.default
       else
         sock:close()
-        if on_error then
-          on_error('bad protocol')
-        end
+        on_error('bad protocol')
         return
       end
       new_client = client(sock,protocol_index)
