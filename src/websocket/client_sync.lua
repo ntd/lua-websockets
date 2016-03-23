@@ -3,9 +3,7 @@ local sync = require'websocket.sync'
 local tools = require'websocket.tools'
 
 local new = function(ws)
-  ws = ws or {}
-  local copas = require'copas'
-  
+  ws =  ws or {}
   local self = {}
   
   self.sock_connect = function(self,host,port)
@@ -13,19 +11,19 @@ local new = function(ws)
     if ws.timeout ~= nil then
       self.sock:settimeout(ws.timeout)
     end
-    local _,err = copas.connect(self.sock,host,port)
-    if err and err ~= 'already connected' then
+    local _,err = self.sock:connect(host,port)
+    if err then
       self.sock:close()
       return nil,err
     end
   end
   
   self.sock_send = function(self,...)
-    return copas.send(self.sock,...)
+    return self.sock:send(...)
   end
   
   self.sock_receive = function(self,...)
-    return copas.receive(self.sock,...)
+    return self.sock:receive(...)
   end
   
   self.sock_close = function(self)
